@@ -1,0 +1,33 @@
+<div class="container">
+  <br><br>
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="list-group">
+        <a class="list-group-item list-group-item-action text text-center text-primary">
+          <b>Issue Details</b>
+        </a>
+        <a class="list-group-item list-group-item-action ">Issue ID:
+          <i class="text text-info">{{issue?.id}}</i>
+        </a>
+        <a class="list-group-item list-group-item-action">Issue description:
+          <span class="text text-info">{{issue?.description}}</span>
+        </a>
+        <a class="list-group-item list-group-item-action">Issue status:
+          <span class="text text-info">{{issue?.status}}</span>
+        </a>
+        <a class="list-group-item list-group-item-action">Issue Created Date:
+          <span class="text text-info">{{issue?.createdDate}}</span>
+        </a>
+        <a class="list-group-item list-group-item-action">Issue Resolved Date:
+          <span class="text text-info">{{issue?.resolvedDate}}</span>
+        </a>
+        <a class="list-group-item list-group-item-action">
+          <button (click)="goBack()" class="btn btn-primary">
+            <i class="fa fa-arrow-circle-left">  Back</i>
+          </button>
+        </a>
+      </div> 
+
+    </div>
+  </div>
+</div>

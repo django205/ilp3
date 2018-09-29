@@ -1,0 +1,64 @@
+<div class="container">
+  <br>
+   <br>
+  <div class='row'>
+    <div class='col-md-3'>
+      <i class="fa fa-filter">Filter by Description:</i>
+    </div>
+    <div class='col-md-3 '>
+      <input type='text' class="form-control" [(ngModel)]='nameFilter' />
+
+    </div>
+
+  </div>
+  <br>
+ 
+
+
+  <table class="table table-striped  table-responsive" *ngIf="issues && issues.length">
+    <thead class="thead-default">
+      <tr>
+        <th>Check</th>
+        <th *ngIf="show">Description
+          <i class="fa fa-window-close" (click)="show = !show"></i>
+        </th>
+        <th *ngIf="showSev">Severity
+          <i class="fa fa-window-close" (click)="showSev = !showSev"></i>
+        </th>
+        <th *ngIf="showStat">Status
+          <i class="fa fa-window-close" (click)="showStat = !showStat"></i>
+        </th>
+        <th *ngIf="showCd">Created Date
+          <i class="fa fa-window-close" (click)="showCd = !showCd"></i>
+        </th>
+        <th *ngIf="showRd">Resolved Date
+          <i class="fa fa-window-close" (click)="showRd = !showRd"></i>
+        </th>
+        <th>Actions</th>
+
+        <th>
+          <button type="button" (click)="reset()" class="btn btn-success">Reset</button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let issue of issues | issueFilter: nameFilter'>
+        <td>
+          <input type="checkbox" [(ngModel)]="issue.selected">
+        </td>
+        <td *ngIf="show" [routerLink]="['/issue',issue.id]">{{issue.description}}</td>
+        <td *ngIf="showSev">{{issue.severity}}</td>
+        <td *ngIf="showStat">{{issue.status}}</td>
+        <td *ngIf="showCd">{{issue.createdDate}}</td>
+        <td *ngIf="showRd">{{issue.resolvedDate}}</td>
+        <td>
+          <button [routerLink]="['/edit',issue.id]" type="button" class="btn btn-secondary">Edit</button>
+          <button type="button" class="btn btn-danger" (click)="deleteIssue(issue.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button routerLink="/add" type="button" class="btn btn-primary">Add Issue</button>
+  <button type="button" class="btn btn-danger" (click)="onBulkDelete()">Bulk Delete</button>
+</div>

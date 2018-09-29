@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2>
+        <i class="fa fa-plus"></i>Add New Issue
+      </h2>
+      <form #addForm="ngForm" (ngSubmit)="onSubmit(addForm.value)">
+        <div class="form-group">
+          <label for="description">Issue Description </label>
+          <input type="text" class="form-control" id="description" name="description" [(ngModel)]="description" required minlength="2"
+            #nameRef="ngModel">
+          <div *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)" class="alert alert-danger">
+            <div *ngIf="nameRef.errors.required">
+              Description is required.
+            </div>
+            <div *ngIf="nameRef.errors.minlength">
+              Description must be at least 20 characters long.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="severity">Severity</label>
+          <select class="form-control" name="severity" [ngModel]="severities[0]">
+            <option *ngFor="let severity of severities" [value]="severity">
+              {{severity}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select class="form-control" name="status" [ngModel]="statuses[0]">
+            <option *ngFor="let status of statuses" [value]="status">
+              {{status}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="CreatedDate">Creation date
+            <i class="fa fa-calendar-alt"></i>
+          </label>
+          <input type="date" class="form-control" id="createdDate" name="createdDate" [(ngModel)]="createdDate" required>
+        </div>
+        <div class="form-group">
+          <label for="ResolvedDate">Resolved date
+            <i class="fa fa-calendar-alt"></i>
+          </label>
+          <input type="date" class="form-control" id="resolvedDate" name="resolvedDate" [(ngModel)]="resolvedDate" required>
+        </div>
+        <div class="text text-center">
+          <button type="submit" class="btn btn-info" [disabled]="addForm.invalid">Submit&nbsp;
+            <i class="fa fa-save"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
