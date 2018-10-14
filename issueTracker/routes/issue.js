@@ -1,69 +1,63 @@
-var issueApi = require('../data/issueApi'),
-    express = require('express'),
+//issueApi = require('../data/issueApi'),
+var express = require('express'),
     router = express.Router();
+var Issue = require('../model/issue');
 
+//get all issues
 router.get('/', (req, res) => {
-    issueApi.getAllIssues((err, items) => {
-        res.send(items)
+    Issue.find({}, (err, issues) => {
+        if (err) res.send(err)
+        else res.json(issues)
+    })
+});
+
+//get issue by id
+router.get('/get/:id', (req, res) => {
+    Issue.findOne({ _id: req.params.id }, (err, issue) => {
+        if (err) res.send(err)
+        else res.json(issue)
     })
 })
 
-
-router.get('/get/:id',(req,res)=>{
-    issueApi.getIssueById(req.params.id,(err,issue)=>{
-        res.send(issue)
-    })
-})
-
-// router.get('/create', (req, res) => {
-//     severities = ["Low", "Medium", "High"];
-//     statuses = ["Open", "In-Progress", "Closed"];
-//     res.render('issue/create', { severities: severities, statuses: statuses })
-// })
-
+//create issue
 router.post('/create', (req, res) => {
-    var issue = {};
-    // severities = ["Low", "Medium", "High"];
-    // statuses = ["Open", "In-Progress", "Closed"];
+    var issue = new Issue();
     issue.description = req.body.description;
     issue.severity = req.body.severity;
     issue.status = req.body.status;
     issue.createdDate = req.body.createdDate;
     issue.resolvedDate = req.body.resolvedDate;
     issue.selected = false;
-
-    issueApi.saveIssue(issue, (err, issue) => {
-        res.send(issue)
+    issue.save((err, issue) => {
+        if (err) res.send(err)
+        else res.json(issue)
     })
 })
 
-
-// router.get('/edit/:id', (req, res) => {
-//     issueApi.getIssueById(req.params.id, (err, issue) => {
-//         severities = ["Low", "Medium", "High"];
-//         statuses = ["Open", "In-Progress", "Closed"];
-//         res.render('issue/edit', { issue: issue, severities: severities, statuses: statuses })
-//     })
-// })
-
+//update issue
 router.post('/edit/:id', (req, res) => {
-    var updatedIssue = {};
-    updatedIssue.description = req.body.description;
-    updatedIssue.severity = req.body.severity;
-    updatedIssue.status = req.body.status;
-    updatedIssue.createdDate = req.body.createdDate;
-    updatedIssue.resolvedDate = req.body.resolvedDate;
-    updatedIssue.selected = false;
 
-    issueApi.updateIssueById(req.params.id, updatedIssue, function (err) {
-        res.send("updated")
+    Issue.findOneAndUpdate({ _id: req.params.id }, {
+        $set: {
+            description: req.body.description,
+            severity: req.body.severity, status: req.body.status,
+            createdDate: req.body.createdDate, resolvedDate: req.body.resolvedDate,
+            selected: false
+        }
+    }, { new: true }, (err, issue) => {
+        if (err) res.send(err)
+        else res.json(issue)
     })
 })
 
 router.get('/delete/:id', (req, res) => {
-    issueApi.deleteIssueById(req.params.id, function (err) {
-        res.send('Deleted')
-    })
+    Issue.findOneAndRemove({ _id: req.params.id }, function (err, issue) {
+        if (err)
+            res.send(err);
+        else {
+            res.json(issue);
+        }
+    });
 })
 
 module.exports = router;

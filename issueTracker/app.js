@@ -4,11 +4,21 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
+var mongoose=require('mongoose');
+mongoose.Promise=Promise;
+
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var issueRouter=require('./routes/issue');
 var app = express();
 app.use(cors());
+//connect mongoDB
+mongoose.connect('mongodb://localhost:27017/mydb54');
+
+// var db=mongoose.connection();
+// db.on('error',(err)=>console.log("connection errror",err));
+// db.once('open',()=>{console.log("connected to DB")});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
